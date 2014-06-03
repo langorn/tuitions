@@ -1,0 +1,27 @@
+{% extends "crm/index.html" %}
+{% block postform %}
+
+	<h2>TEACHER: <i class="ui icon user"></i>{{teachers_list.name}} <a href="/crm/teacher/edit/{{teachers_list.id}}/"><i class="ui icon edit"></i></a></h2>
+	<table class="ui table segment" >
+		<thead>
+			<tr>
+				<th>NAME</th>
+				<th></th>
+				<th>ACTION</th>
+			</tr>
+		</thead>
+	{% for student in students_list %}
+		<tr>
+			<td>
+				<a href="/crm/student/{{student.id}}">
+					{{student.name}}
+	  			 </a>
+	  		</td>
+	  		<td></td>
+			<td>
+			 	<a href="/crm/student/delete/{{result.id}}"><button class="ui red button tiny delete">Delete</button></a>
+			</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% endblock %}

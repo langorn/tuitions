@@ -1,0 +1,32 @@
+{% extends "crm/index.html" %}
+{% block postform %}
+<div>
+	<h2>STUDENT: <i class="ui icon user"></i>{{student_list.name}} <a href="/crm/student/edit/{{student_list.id}}/"><i class="ui icon edit"></i></a></h2>
+	<table class="ui table segment" >
+		<thead>
+			<tr>
+				<th>NAME</th>
+				<th>Score</th>
+				<th>ACTION</th>
+			</tr>
+		</thead>
+	{% for perform in performance_list %}
+	<tr>
+		<td>{{perform.title}}</td>
+		<td>{{perform.score}}</td>
+		<td>
+			 <a href="/crm/performance/delete/{{student_list.id}}"><button class="ui red button tiny ">Delete</button></a>
+		</td>
+	</tr>
+	{% endfor %}
+	</table>
+	<a href="/crm/performance/{{student_list.id}}/add/"><button class="ui button green tiny"> Add Performance</button></a>
+	<script>
+		$('.delete').click(function(){
+			var ans = confirm("Are you sure you want to Delete this Record?");
+			if(!ans){
+				return false
+			}
+		})
+	</script>
+{% endblock %}

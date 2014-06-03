@@ -1,0 +1,113 @@
+{% load staticfiles %}
+<html>
+<head>
+
+
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="{% static "js/typeahead.js" %} "></script>
+
+    <link rel=stylesheet type="text/css" href="{% static "css/style.css" %} " href="external-stylesheet.css">
+    <link rel=stylesheet type="text/css" href="{% static "js/semantic/elements/header.min.css" %} " href="external-stylesheet.css">
+    <link rel=stylesheet type="text/css" href="{% static "js/semantic/elements/segment.min.css" %} " href="external-stylesheet.css">
+    <link rel=stylesheet type="text/css" href="{% static "js/semantic/collections/menu.min.css" %} " href="external-stylesheet.css">
+    <link rel=stylesheet type="text/css" href="{% static "js/semantic/collections/grid.min.css" %} " href="external-stylesheet.css">
+    <link rel=stylesheet type="text/css" href="{% static "js/semantic/elements/divider.min.css" %} " href="external-stylesheet.css">
+    <link rel=stylesheet type="text/css" href="{% static "js/semantic/elements/icon.min.css" %} " href="external-stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="{% static "js/semantic/elements/button.min.css" %} " >
+    <link rel="stylesheet" type="text/css" href="{% static "js/semantic/collections/form.min.css" %} " >
+    <link rel="stylesheet" type="text/css" href="{% static "js/semantic/collections/message.min.css" %} " >
+    <link rel="stylesheet" type="text/css" href="{% static "js/semantic/collections/table.min.css" %} " >
+    <link rel="stylesheet" type="text/css" href="{% static "js/semantic/css/semantic.min.css" %} " >
+
+
+</head>
+<body>
+
+{% block menu %}
+
+<div class="ui grid">
+	<div class="sixteen wide column">
+		<div class="ui menu">
+		  <a class="active item" href='/crm'>
+		    <i class="Building icon red big"></i> TUITION CLASS
+		  </a>
+		  <a class="item" href='/crm/search/teacher/'>
+		    <i class="Sitemap icon big green"></i> List All Teacher
+		  </a>
+		  <a class="item" href='/crm/search/student/'>
+		    <i class="Sitemap icon big green"></i>  List All Student
+		  </a>
+		  <a class="item"  href='/crm/teacher/add'>
+		    <i class="add icon big blue"></i> Add Teacher
+		  </a>
+		  <a class="item" href='/crm/student/add'>
+		    <i class="add icon big blue"></i> Add Student
+		  </a>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block postform %}
+	<form action="/login/" method="POST">
+		 {% csrf_token %}
+		<div class="ui forms">
+
+			<label for="username ">Username</label>
+				<input type="text" name="username">
+			<label for="username ">Password</label>
+			<input type="password" name="password">
+
+		</div>
+		<input type="submit">
+
+	</form>
+
+{% endblock %}
+<script>
+
+	var bestPictures = new Bloodhound({
+	  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('values'),
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  remote: {
+		    url: '/crm/ajax_search/%QUERY',
+		    filter: function(list) {
+		    	
+		      return $.map(list, function(country) { //console.log(country); 
+		      	return { name: country.fields.name, pk:country.pk }; });
+		    }
+	   }	   
+	  });
+	 
+	bestPictures.initialize();
+	 
+	$('#remote .typeahead').typeahead(
+		{
+			highlight:true
+		},
+		{
+	  	name: 'pk',
+	 	displayKey: 'name',
+	 	valueKey:'pk',
+	    source: bestPictures.ttAdapter(),
+	    template: [ '<p class="name">{{pk}}</p>',
+	    '<p class="lang">{{pk}}</p>'].join('')	})
+
+		.bind("typeahead:selected", function(obj, datum, name) {
+			console.log( datum, name);
+			if(!datum){
+				return
+			}
+				var id = datum.pk
+			window.location.href = '/crm/teacher/'+datum.pk;
+		});
+
+// $.getJSON('/crm/ajax_search/MinX', function(data){
+// 	console.log(data);
+
+// })
+
+</script>
+</body>
+</html>
+
+<!-- <img src="/static/images/author1.jpg"> -->

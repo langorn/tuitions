@@ -1,0 +1,15 @@
+{% extends "crm/index.html" %}
+{% block postform %}
+<h2>ADD A NEW STUDENT</h2>
+<div class="ui form segment">
+	<div class="fields">
+		<form action="/crm/student/create/" method="POST">
+		 {% csrf_token %}
+		{{form.as_p}}
+
+		<input type="submit">
+		</form>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "crm/index.html" %}
+{% block postform %}
+	<h2>EDIT TEACHER: <i class="ui icon user"></i>{{student_list.name}}</h2>
+
+<div class="ui form segment">
+	<div class="field">
+		<form action="/crm/teacher/modify/{{teacher_id}}/" method="POST">
+		 {% csrf_token %}
+		{{form.as_p}}
+
+		<input type="submit">
+		</form>
+	</div>
+</div>
+{% endblock %}
